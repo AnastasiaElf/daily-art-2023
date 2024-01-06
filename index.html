@@ -50,7 +50,7 @@
             background-position: center;
             position: relative;
             border-radius: 8px;
-
+            cursor: pointer;
         }
 
         .number {
@@ -63,6 +63,37 @@
             right: 5px;
             font-size: 12px;
         }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            width: calc(100% - 30px);
+            height: calc(100% - 30px);
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 0;
+            right: 12px;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 24px;
+            cursor: pointer;
+        }
     </style>
     <title>Daily art challenge 2023</title>
 </head>
@@ -72,19 +103,44 @@
 
     <div id="items-container" class="items-container"></div>
 
+    <div id="overlay" class="overlay" onclick="closeModal()">
+        <div id="modal" class="modal">
+            <div class="close-btn" onclick="closeModal()">&times;</div>
+        </div>
+    </div>
+
+
     <script>
-        const itemsContainer = document.querySelector("#items-container");
+        const itemsContainer = document.getElementById("items-container");
         let content = "";
 
         for (let index = 365; index >= 1; index--) {
             content += `<div class="item-wrapper">
-                    <div class="item" style="background-image: url('images/${index}.webp')">
+                    <div class="item" style="background-image: url('images/${index}.webp')" onclick="openModal(this)">
                         <div class="number">${index}</div>
                     </div>
                 </div>`;
         }
 
         itemsContainer.innerHTML = content;
+
+        function openModal(item) {
+            const fullSize = document.getElementById('modal');
+            fullSize.style.backgroundImage = item.style.backgroundImage;
+
+            document.getElementById('overlay').style.display = 'flex';
+
+            const scrollbarWidth = window.innerWidth - document.body.clientWidth;
+            document.body.style.marginRight = scrollbarWidth + 'px';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('overlay').style.display = 'none';
+
+            document.body.style.marginRight = '0';
+            document.body.style.overflow = 'auto';
+        }
     </script>
 </body>
 
