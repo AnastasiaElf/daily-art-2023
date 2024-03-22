@@ -41,17 +41,16 @@
             overflow: hidden;
             background: #222222;
             box-shadow: 0px 0px 3px 0px black;
+            position: relative;
+            display: flex;
         }
 
         .item {
             width: 150px;
             height: 150px;
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center;
-            position: relative;
             border-radius: 8px;
             cursor: pointer;
+            object-fit: contain;
         }
 
         .number {
@@ -117,9 +116,8 @@
 
         for (let index = 365; index >= 1; index--) {
             content += `<div class="item-wrapper">
-                    <div class="item" style="background-image: url('images/${index}.webp')" onclick="openModal(this)">
-                        <div class="number">${index}</div>
-                    </div>
+                    <img class="item" src="images/${index}.webp"alt="Day ${index}" onclick="openModal(this)" loading="lazy"/>
+                    <div class="number">${index}</div>
                 </div>`;
         }
 
@@ -127,7 +125,7 @@
 
         function openModal(item) {
             const fullSize = document.getElementById('modal');
-            fullSize.style.backgroundImage = item.style.backgroundImage;
+            fullSize.style.backgroundImage = `url('${item.getAttribute("src")}')`;
 
             document.getElementById('overlay').style.display = 'flex';
 
